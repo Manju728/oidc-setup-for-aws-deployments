@@ -1,0 +1,46 @@
+name: Deployment Pipeline
+
+on:
+  push:
+    branches-ignore: [ main ]
+
+jobs:
+  aws-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking out to repo
+        uses: actions/checkout@v4
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: SSH setup
+        uses: MRKR-PROJECTS/ssh-action@V1.0
+        with:
+          private_key: ${{ secrets.SSH_KEY }}
+      - name: Installing AWS CLI
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install awscli
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ap-south-1
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.1
+        with:
+          terraform_version: "1.6.6"
+      - name: Perform Terraform plan
+        shell: bash
+        run: |
+          cd cloud_infrastructure/cloud_setup
+          terraform init -backend-config=backend.hcl
+          if terraform workspace list | grep -o "deploy"; then
+            terraform workspace select deploy
+          else
+            terraform workspace new deploy
+          fi
+          terraform apply -auto-approve --var-file="tfvars/dev.tfvars" -parallelism="10" -lock=true
