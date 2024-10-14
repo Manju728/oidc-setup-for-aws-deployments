@@ -1,8 +1,7 @@
-name: Deployment Pipeline
+name: Manual Deployment Pipeline
 
 on:
-  push:
-    branches-ignore: [ main ]
+  workflow_dispatch:
 
 permissions:
   id-token: write
