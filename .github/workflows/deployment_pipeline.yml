@@ -27,14 +27,11 @@ jobs:
         run: |
           sudo apt update
           sudo apt install awscli
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4.0.2
-        with:
-          role-to-assume: arn:aws:iam::728747466273:role/aws-deployment-role
-          aws-region: ap-south-1
       - name: Perform Terraform apply
         uses: MRKR-PROJECTS/terraform-action@V1.0
         with:
+          role-to-assume: arn:aws:iam::728747466273:role/aws-deployment-role
+          aws-region: ap-south-1
           terraform_version: "1.6.6"
           account_setup_directory: "cloud_infrastructure/cloud_setup"
           environment: "deploy"
