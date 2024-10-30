@@ -1,1 +1,1 @@
-# aws-deployments-practice
+# oidc-setup-for-aws-deployments

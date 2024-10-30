@@ -1,0 +1,67 @@
+name: Manual OIDC role deployment pipeline
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  aws-deployment-to-728747466273:
+    runs-on: ${{ vars.RUNNER_TAG }}
+    steps:
+      - name: checking out to repo
+        uses: actions/checkout@v4
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: SSH setup
+        uses: MRKR-PROJECTS/ssh-action@V1.0
+        with:
+          private_key: ${{ secrets.SSH_KEY }}
+      - name: Installing AWS CLI
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install awscli
+      - name: Perform Terraform apply
+        uses: MRKR-PROJECTS/terraform-action@V1.0
+        with:
+          role-to-assume: ${{ secrets.ACCOUNT1_ROLE_TO_ASSUME }}
+          aws-region: ap-south-1
+          terraform_version: "1.6.6"
+          account_setup_directory: "cloud_infrastructure/cloud_setup"
+          environment: "dev"
+          tf_vars_file: "tfvars/account-728747466273.tfvars"
+          config_file: "backend-config-728747466273.hcl"
+
+  aws-deployment-to-645708657292:
+    runs-on: ${{ vars.RUNNER_TAG }}
+    steps:
+      - name: checking out to repo
+        uses: actions/checkout@v4
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: SSH setup
+        uses: MRKR-PROJECTS/ssh-action@V1.0
+        with:
+          private_key: ${{ secrets.SSH_KEY }}
+      - name: Installing AWS CLI
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install awscli
+      - name: Perform Terraform apply
+        uses: MRKR-PROJECTS/terraform-action@V1.0
+        with:
+          role-to-assume: ${{ secrets.ACCOUNT2_ROLE_TO_ASSUME }}
+          aws-region: ap-south-1
+          terraform_version: "1.6.6"
+          account_setup_directory: "cloud_infrastructure/cloud_setup"
+          environment: "dev"
+          tf_vars_file: "tfvars/account-645708657292.tfvars"
+          config_file: "backend-config-645708657292.hcl"
