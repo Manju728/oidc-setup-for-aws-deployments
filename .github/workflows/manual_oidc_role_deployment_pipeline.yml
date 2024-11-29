@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: SSH setup
-        uses: MRKR-PROJECTS/ssh-action@V1.0
+        uses: rkr-projects/ssh-action@V1.0
         with:
           private_key: ${{ secrets.SSH_KEY }}
       - name: Installing AWS CLI
@@ -27,7 +27,7 @@ jobs:
           sudo apt update
           sudo apt install awscli
       - name: Perform Terraform apply
-        uses: MRKR-PROJECTS/terraform-action@V1.0
+        uses: rkr-projects/terraform-action@V1.0
         with:
           role-to-assume: ${{ secrets.ACCOUNT1_ROLE_TO_ASSUME }}
           aws-region: ap-south-1
@@ -47,7 +47,7 @@ jobs:
         with:
           python-version: '3.10'
       - name: SSH setup
-        uses: MRKR-PROJECTS/ssh-action@V1.0
+        uses: rkr-projects/ssh-action@V1.0
         with:
           private_key: ${{ secrets.SSH_KEY }}
       - name: Installing AWS CLI
@@ -56,7 +56,7 @@ jobs:
           sudo apt update
           sudo apt install awscli
       - name: Perform Terraform apply
-        uses: MRKR-PROJECTS/terraform-action@V1.0
+        uses: rkr-projects/terraform-action@V1.0
         with:
           role-to-assume: ${{ secrets.ACCOUNT2_ROLE_TO_ASSUME }}
           aws-region: ap-south-1
