@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "aws-github-trust-relationship" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:MRKR-PROJECTS/*", "repository_visibility:private"]
+      values   = ["repo:rkr-projects/*", "repository_visibility:private"]
     }
     principals {
       type        = "Federated"
