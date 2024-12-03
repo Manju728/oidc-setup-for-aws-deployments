@@ -8,8 +8,20 @@ permissions:
   contents: read
 
 jobs:
+  running-checkov:
+    runs-on: ${{ vars.RUNNER_TAG }}
+    steps:
+      - name: SSH setup
+        uses: rkr-projects/ssh-action@V1.0
+        with:
+          private_key: ${{ secrets.SSH_KEY }}
+      - name: Run Checkov
+        uses: rkr-projects/checkov-action@V1.0
+
   aws-deployment-to-728747466273:
     runs-on: ${{ vars.RUNNER_TAG }}
+    needs:
+      - running-checkov
     steps:
       - name: checking out to repo
         uses: actions/checkout@v4
@@ -25,7 +37,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           role-to-assume: ${{ secrets.ACCOUNT1_ROLE_TO_ASSUME }}
-          aws-region: ap-south-1
+          aws-region: "ap-south-1"
       - name: Terraform apply
         uses: rkr-projects/terraform-action@V1.0
         with:
@@ -37,6 +49,8 @@ jobs:
 
   aws-deployment-to-645708657292:
     runs-on: ${{ vars.RUNNER_TAG }}
+    needs:
+      - running-checkov
     steps:
       - name: checking out to repo
         uses: actions/checkout@v4
@@ -52,7 +66,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           role-to-assume: ${{ secrets.ACCOUNT2_ROLE_TO_ASSUME }}
-          aws-region: ap-south-1
+          aws-region: "ap-south-1"
       - name: Terraform apply
         uses: rkr-projects/terraform-action@V1.0
         with:
