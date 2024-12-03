@@ -7,14 +7,14 @@ locals {
 }
 
 output "cert_thumb_prints" {
-  value = [for i in range(0, local.certs_list_length): data.tls_certificate.github.certificates[i].sha1_fingerprint]
+  value = [for i in range(0, local.certs_list_length) : data.tls_certificate.github.certificates[i].sha1_fingerprint]
 }
 
 ### OpenID Connect Provider
 resource "aws_iam_openid_connect_provider" "github" {
-  url = "https://token.actions.githubusercontent.com"
-  client_id_list = ["sts.amazonaws.com"]
-  thumbprint_list = [for i in range(0, local.certs_list_length): data.tls_certificate.github.certificates[i].sha1_fingerprint]
+  url             = "https://token.actions.githubusercontent.com"
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [for i in range(0, local.certs_list_length) : data.tls_certificate.github.certificates[i].sha1_fingerprint]
 }
 
 ### Policy to establish trust relationship between aws and github

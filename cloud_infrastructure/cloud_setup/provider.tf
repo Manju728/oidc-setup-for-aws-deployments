@@ -17,9 +17,9 @@ provider "aws" {
   region = var.aws_region
   default_tags {
     tags = {
-      "repository"  = "oidc-setup-for-aws-deployments"
-      "managed-by"  = "terraform"
-      "aws-region"  = var.aws_region
+      "repository" = "oidc-setup-for-aws-deployments"
+      "managed-by" = "terraform"
+      "aws-region" = var.aws_region
     }
   }
 }
