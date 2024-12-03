@@ -53,6 +53,12 @@ repos:
         args:
             - --hook-config=--parallelism-ci-cpu-cores=6
 
+    - id: terraform_checkov
+      name: (Terraform) Checkov
+      args:
+          - --args=--quiet
+          - --hook-config=--parallelism-ci-cpu-cores=6
+
     -   id: terraform_docs
         name: (Terraform) Docs
         args:

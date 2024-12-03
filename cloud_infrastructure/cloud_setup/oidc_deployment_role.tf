@@ -47,6 +47,7 @@ resource "aws_iam_role" "deployment_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "deployment_role_policy_attachment" {
+  # checkov:skip=CKV_AWS_274: The role requires administrator access to create and delete resources
   role       = aws_iam_role.deployment_role.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
