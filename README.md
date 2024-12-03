@@ -1,1 +1,1 @@
-# oidc-setup-for-aws-deployments
+# oidc-role-setup-for-aws-deployments
